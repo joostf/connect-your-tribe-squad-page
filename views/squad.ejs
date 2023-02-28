@@ -15,7 +15,7 @@
       id="fdndmembers" 
       name="fdndmembers" 
       autocomplete="off" 
-      placeholder="Search <%= squad.name %> members" />
+      placeholder="Search <%= squad.name %> members">
     <datalist id="members">
       <% squad.members.forEach(member => { %>
           <option value="<%= member.name %> <%= member.prefix %> <%= member.surname %>"></option>
@@ -25,7 +25,7 @@
 
   <ul>
       <li>
-        <img src="/members/<%= squad.slug %>.JPG" alt="" />
+        <img src="/members/<%= squad.slug %>.JPG" alt="">
        <h3><%= squad.name %></h3> 
       </li>
   </ul>
@@ -41,7 +41,7 @@
 
     const markup = `
         <li id="${dashName}">
-            <img src="/members/${dashName}.JPG"" alt=""></img>
+            <img src="/members/${dashName}.JPG"" alt="">
             <h3>${name}</h3>
         </li>
     `;
