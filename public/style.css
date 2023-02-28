@@ -30,10 +30,10 @@ h1{
   margin: 0;
   text-transform: uppercase;
 }
-h1 a{
+/* h1 a{
   text-decoration: none;
   color: inherit;
-}
+} */
 h1 > span{
   display: block;
   font-size: 7rem;
