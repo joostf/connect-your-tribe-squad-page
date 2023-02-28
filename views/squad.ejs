@@ -2,7 +2,10 @@
 
 <main>
   <header>
-      <h1>FDND <%= squad.name %><span>Wie<span>Is</span>Wie</span></h1>
+      <h1>
+        <a href="/">FDND</a> <%= squad.name %>
+        <span>Wie<span>Is</span>Wie</span>
+      </h1>
   </header>
   
   <form>
@@ -33,7 +36,7 @@
   // Formulier afhandeling
   document.querySelector('#fdndmembers').addEventListener('change', (event) => {
     let name=event.target.value;
-    let dashName = name.replace(/\s+/g, '-');
+    let dashName = name.replace(/\s+/g, '-'); //replace spaces with dash
     // console.log(imgName);
 
     const markup = `
