@@ -205,7 +205,7 @@ select:focus + .focus {
   left: -1px;
   right: -1px;
   bottom: -1px;
-  border: var(--outline) solid var(--highlight);
+  border: var(--outline) solid oink;
   border-radius: inherit;
 }
 

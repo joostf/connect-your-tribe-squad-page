@@ -24,6 +24,7 @@ app.get('/', function (request, response) {
   let allMembers = []
   let count = 0
 
+  //fetch de 4 squads 
   let url = "https://whois.fdnd.nl/api/v1/squad/squad-a-2022"
   fetchJson(url).then((data) => {
     data.squad.members.forEach(member => { allMembers.push(member) })
@@ -39,13 +40,18 @@ app.get('/', function (request, response) {
     data.squad.members.forEach(member => { allMembers.push(member) })
     renderIndex()
   })
+  url = "https://whois.fdnd.nl/api/v1/squad/founders-2021"
+  fetchJson(url).then((data) => {
+    data.squad.members.forEach(member => { allMembers.push(member) })
+    renderIndex()
+  })
 
   function renderIndex(){
     count++
-    // console.log("renderIndex",count)
-    // console.log(allMembers.length)
-    if(count == 3) {
-      // allMembers = {...allMembers}
+    //als deze functie 4 keer is aangeroepen is alle data geladen
+    if(count == 4) {
+      //array alphabetisch sorteren op (voor)naam
+      //https://www.javascripttutorial.net/array/javascript-sort-an-array-of-objects/
       allMembers = allMembers.sort((a, b) => {
         var nameA = a.name.toUpperCase(); // ignore upper and lowercase
         var nameB = b.name.toUpperCase(); // ignore upper and lowercase
@@ -56,10 +62,13 @@ app.get('/', function (request, response) {
           return 1; // name B comes first
         }
         return 0;  // names must be equal
-
-
       });
-    
+      //dubbels uit de array halen
+      //https://www.javascripttutorial.net/array/javascript-remove-duplicates-from-array/
+      // allMembers = [...new Set(allMembers)];
+      allMembers = [...new Map(allMembers.map((m) => [m.id, m])).values()];
+
+      //render de index met alle members in de datalist
       response.render('index', {data: allMembers} )
     }
   }
