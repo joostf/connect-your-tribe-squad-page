@@ -8,58 +8,150 @@ app.set('views', './views')
 // Gebruik de map 'public' voor statische resources
 app.use(express.static('public'))
 
-
-//Fetch JSON
-//fetch(url).then((response) => response.json()).then((data) => console.log(data));
-
-// // Maak een route voor de index
-// app.get('/', (request, response) => {
-//   let slug = request.query.squad || 'squad-b-2022'
-//   let orderBy = request.query.orderBy || 'name'
-//   let direction = request.query.direction || 'ASC'
-//   let squadUrl = url + slug + '?orderBy=' + orderBy + '&direction=' + direction
-
-//   // fetchJson(squadUrl).then((data) => {
-//   //   response.render('index', data)
-//   // })  
-// })
-
-
 /* 
   ROUTES AND FETCH
 */
-// Route voor de index
+
+/*
+INDEX
+- Link naar search-member
+- Query squads voor menu naar squad-page
+*/
 app.get('/', function (request, response) {
-  const url = 'https://whois.fdnd.nl/api/v1/squads';
+  // const url = 'https://whois.fdnd.nl/api/v1/squads';
+  // const url = "https://whois.fdnd.nl/api/v1/members?squad=squat-c-2022" //max 10
+  // const url = "https://whois.fdnd.nl/api/v1/squad/squad-b-2022"
+  let allMembers = []
+  let count = 0
+
+  let url = "https://whois.fdnd.nl/api/v1/squad/squad-a-2022"
   fetchJson(url).then((data) => {
-    response.render('index', data)
+    data.squad.members.forEach(member => { allMembers.push(member) })
+    renderIndex()
   })
+  url = "https://whois.fdnd.nl/api/v1/squad/squad-b-2022"
+  fetchJson(url).then((data) => {
+    data.squad.members.forEach(member => { allMembers.push(member) })
+    renderIndex()
+  })
+  url = "https://whois.fdnd.nl/api/v1/squad/squat-c-2022"
+  fetchJson(url).then((data) => {
+    data.squad.members.forEach(member => { allMembers.push(member) })
+    renderIndex()
+  })
+
+  function renderIndex(){
+    count++
+    // console.log("renderIndex",count)
+    // console.log(allMembers.length)
+    if(count == 3) {
+      // allMembers = {...allMembers}
+      allMembers = allMembers.sort((a, b) => {
+        var nameA = a.name.toUpperCase(); // ignore upper and lowercase
+        var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1; //name A comes first
+        }
+        if (nameA > nameB) {
+          return 1; // name B comes first
+        }
+        return 0;  // names must be equal
+
+
+      });
+    
+      response.render('index', {data: allMembers} )
+    }
+  }
+
 })
+
+
+
+/*
+SQUAD
+- Query squad members voor foto's
+*/
 
 //Route voor een squad overzicht om studenten te zoeken
 app.get('/squad/:id', function (request, response) {
   // console.log("query",request.query);
-  console.log("params",request.params)
+  // console.log("params",request.params)
 
-  // const url = "https://whois.fdnd.nl/api/v1/member/koop-reynders"
+  //fetch all members per squad
+  // const url = https://whois.fdnd.nl/api/v1/members?squad=squat-c-2022
+  // const url = https://whois.fdnd.nl/api/v1/squad/squad-a-2022?orderBy=name&direction=ASC
   // const url = "https://whois.fdnd.nl/api/v1/squad/squat-c-2022"
-  let id = request.params.id;
-  let order = "name";
-  let direction = "ASC";
-  let url = 'https://whois.fdnd.nl/api/v1/squad/'+id+"?orderBy="+order+"&direction="+direction;
+  const id = request.params.id;
+  const url = 'https://whois.fdnd.nl/api/v1/squad/'+id+"?orderBy=name&direction=ASC";
   console.log("url",url)
 
   fetchJson(url).then((data) => {
     // console.log(data.squad.members.length)
-    console.log("data",data)
+    // console.log("data",data.members)
     response.render('squad', data)
   })
 })
 
-//Route voor memebers om namen te zoeken
-app.get('/members', function (request, response) {
-  response.render('members')
-})
+
+
+
+/*
+SEARCH MEMBER
+- Datalist met alle members 
+*/
+
+// //Route voor memebers om namen te zoeken
+// app.get('/members', function (request, response) {
+
+//   // const url = "https://whois.fdnd.nl/api/v1/member/koop-reynders"
+//   const url = "https://whois.fdnd.nl/api/v1/squad/squat-c-2022"
+//   // const url = 'https://whois.fdnd.nl/api/v1/squads';
+//   fetchJson(url).then((data) => {
+//     response.render('members', data)
+//   })
+//   // console.log("query",request.query);
+
+//   // const first = "100";
+//   // const order = "name";
+//   // const direction = "ASC";
+//   // let url = "https://whois.fdnd.nl/api/v1/members"
+//   // url = url+"?first="+first+"&orderBy="+order+"&direction="+direction;
+
+//   // const urlSquads = "https://whois.fdnd.nl/api/v1/squads/"  
+//   // let url = "https://whois.fdnd.nl/api/v1/squad"
+//   // let count = 0
+//   // let memberList = []
+//   // // console.log("url",url)
+//   // fetchJson(urlSquads).then((data) => {
+//   //   console.log("SQUAD DATA")
+//   //   //fetch data for each squad
+//   //   const squadsData = data.squads
+//   //   squadsData.forEach(squad => {
+//   //     if (squad.slug == "minor-web-2023") return
+//   //     console.log("getSquadData",squad.name)
+//   //     //https://whois.fdnd.nl/api/v1/squad/founders-2021?orderBy=name&direction=ASC
+
+//   //     url = url + "/" + squad.slug + "?orderBy=name&direction=ASC"
+//   //     // console.log("url", url)
+//   //     fetchJson(url).then((squadData) => {
+//   //       console.log("squadData",squadData.squad.name)
+//   //       setSquadData(squadData)
+//   //     })
+//   //   })
+
+//   //   function setSquadData(squadData){
+//   //     console.log("setSquadData",squadData)
+//   //     memberList.push(squadData.squad.members)
+//   //     count++
+//   //     if(count==squadsData.length-1){
+//   //       console.log("memberList",memberList.length)
+//   //       response.render('members', {data: memberList})
+//   //     }    
+//   //   }
+//   // })
+
+// })
 
 
 /* 
@@ -91,5 +183,8 @@ async function fetchJson(url, payload = {}) {
  * Nodemon reload, automatically.
  * https://nodemon.io
  * nodemon ./app.js
+ *
+ * How to use async and await in a forEach JS loop
+ * https://learn.coderslang.com/0144-how-to-use-async-and-await-in-a-foreach-js-loop/
  * 
 */

@@ -10,6 +10,16 @@
   </head>
   <body>
 
+    <datalist id="members">
+      <% members.forEach(member => { %>
+          <option value="<%= member.name %> <%= member.prefix; %> <%= member.surname; %>"></option>
+        <% }); %>
+    </datalist>
+
+
+
+
+
   <main>
     <header>
       <h1>
@@ -17,11 +27,6 @@
         <span>Wie<span>Is</span>Wie</span>
       </h1>
     </header>
-
-    <h1>
-      <a href="/">FDND</a>
-      <span>Wie<span>Is</span>Wie</span>
-    </h1>
   
     <form>
       <label for="searchSquad">Search squads:</label>
@@ -46,6 +51,18 @@
       // console.log(event.target.value);
       window.location.href = event.target.value;
     });
+
+   console.log("Script")
+
+
+    let obj1 = ["Tokyo", "Nairobi", "Berlin", "Oslo", "Moscow"]
+    console.log(obj1)
+    obj1 = Object.assign({}, obj1)
+    console.log(obj1)
+    
+    // obj1.forEach(element => console.log(element));
+
+
   </script>
 
   </body>

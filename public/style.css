@@ -2,11 +2,12 @@
   box-sizing: border-box;
   scroll-behavior: smooth;
   --highlight: purple;
+  --bgcolor: #efefef;
   --outline: 0.4rem;
   --border: 0.15em;
 }
 body{
-  background: #efefef;
+  background: var(--bgcolor);
   /* background: pink; */
   padding: 0.5rem;
   font-family: Open Sans, sans-serif;
@@ -59,10 +60,13 @@ h2{
 /*
   LIJST FOTO'S en FORMULIER
 */
+main{
+  margin-top: 12rem;
+}
 article{
   position: relative;
   /* z-index: 2; */
-  margin-top: 12rem;
+
 }
 /* LIJST FOTO"S */
 ul{
@@ -77,13 +81,30 @@ li{
   scroll-snap-align: start;
   aspect-ratio: 16 / 9;
 }
+nav{
+  position: relative;
+  display: flex;
+  background: var(--bgcolor);
+  z-index: 2;
+  /* flex-wrap: wrap; */
+}
+nav a{
+  width: 30%;
+  margin-top: 0.4rem;
+  margin-right: 0.4rem;
+}
+nav a{
+  position:relative;
+  background: var(--highlight);
+}
 img{
   width: 100%;
 }
-img+h3{
+nav h3, img+h3{
+  z-index: 2;
   position: absolute;
   left: 0;
-  bottom: 1rem;
+  bottom: 0;
   background: white;
   display: inline-block;
   /* margin-top: -10em; */
@@ -93,8 +114,9 @@ img+h3{
 form{
   background-color: white;
   padding: 0;
+  margin-top: 0.6em;
   position: sticky;
-  top: 0.4em;
+  top: 0.2em;
   z-index: 1; /* stackt bovenop de ul (in article) */
   pointer-events: auto;
 }
@@ -109,8 +131,8 @@ input{
   width: 100%;
   top: 10px;
   color: black;
-  border: var(--outline) solid #333;
-  border-radius: var(--outline);
+  border: var(--outline) solid var(--highlight);
+  /* border-radius: var(--outline); */
 }
 input:focus-visible {
   outline: var(--outline) solid var(--highlight);
