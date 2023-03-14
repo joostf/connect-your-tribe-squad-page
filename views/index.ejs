@@ -2,27 +2,7 @@
 
 <%- include('./partials/header') %>
 
-
 <main>
-
-  <nav>      
-    <a href="./squad/squad-a-2022">
-      <img src="/members/squad-a-2022.JPG" alt="">
-      <h3>Squad A</h3> 
-    </a>
-    <a href="./squad/squad-b-2022">
-      <img src="/members/squad-b-2022.JPG" alt="">
-      <h3>Squad B</h3> 
-    </a>
-    <a href="./squad/squat-c-2022">
-      <img src="/members/squat-c-2022.JPG" alt="">
-      <h3>Squat C</h3> 
-    </a>
-    <a href="./squad/founders-2021">
-      <img src="/members/founders-2021.JPG" alt="">
-      <h3>Founders</h3> 
-    </a>
-  </nav>
 
   <article>
     <form>
@@ -39,6 +19,25 @@
           <% }); %>
       </datalist>
     </form>
+
+    <nav>      
+      <a href="./squad/squad-a-2022">
+        <img src="/members/squad-a-2022.JPG" alt="">
+        <h3>Squad A</h3> 
+      </a>
+      <a href="./squad/squad-b-2022">
+        <img src="/members/squad-b-2022.JPG" alt="">
+        <h3>Squad B</h3> 
+      </a>
+      <a href="./squad/squat-c-2022">
+        <img src="/members/squat-c-2022.JPG" alt="">
+        <h3>Squat C</h3> 
+      </a>
+      <a href="./squad/founders-2021">
+        <img src="/members/founders-2021.JPG" alt="">
+        <h3>Founders</h3> 
+      </a>
+    </nav>
 
     <ul>
 
@@ -63,7 +62,7 @@
         </li>
     `;
     document.querySelector('ul').insertAdjacentHTML("afterbegin",markup);
-    // window.location.href = "#"+dashName;
+    window.location.href = "#"+dashName;
     searchmembers.value=""; //clear input field
 
   });

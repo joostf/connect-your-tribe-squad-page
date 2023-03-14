@@ -1,8 +1,12 @@
 *{
   box-sizing: border-box;
   scroll-behavior: smooth;
-  --highlight: purple;
+  /* --alert: #66e5bf; */
+  --alert: #fffc86;
+  /* --highlight: #a675f5;  */
+  --highlight: purple; 
   --bgcolor: #efefef;
+  --light: white;
   --outline: 0.4rem;
   --border: 0.15em;
 }
@@ -13,6 +17,7 @@ body{
   font-family: Open Sans, sans-serif;
 }
 main{
+  /* background: var(--bgcolor); */
   /* scroll-snap-points-y: repeat(3rem);
   scroll-snap-type: y mandatory; */
 }
@@ -41,7 +46,7 @@ h1 a{
 /* h1 a:focus-visible */
 /* h1 a:focus-within */
 h1 a:hover, h1 a:focus{
-  color: white;
+  color: var(--light);
   background: var(--highlight);
 }
 h1 > span{
@@ -76,43 +81,51 @@ li{
   position: relative;
   padding: 0.5rem;
   margin-bottom: 0.5rem;
-  background-color: white;
+  background-color: var(--light);
   list-style: none;
   scroll-snap-align: start;
   aspect-ratio: 16 / 9;
 }
+li:target{
+  background: var(--alert);
+  scroll-margin-top: 5rem;
+}
 nav{
   position: relative;
   display: flex;
-  background: var(--bgcolor);
-  z-index: 2;
+  /* background: var(--bgcolor); */
+  /* background:palevioletred; */
+  /* z-index: 2; */
   /* flex-wrap: wrap; */
 }
 nav a{
   width: 30%;
   margin-top: 0.4rem;
   margin-right: 0.4rem;
-}
-nav a{
   position:relative;
+  background: var(--light);
+  padding: 0.5rem;
+}
+nav a:hover, nav a:focus{
+  /* border: var(--outline) solid var(--highlight); */
   background: var(--highlight);
 }
 img{
   width: 100%;
 }
 nav h3, img+h3{
-  z-index: 2;
+  /* z-index: 2; */
   position: absolute;
   left: 0;
   bottom: 0;
-  background: white;
+  background: var(--light);
   display: inline-block;
   /* margin-top: -10em; */
   padding: 0.5rem 1rem;
 }
 /* FORMULIER */
 form{
-  background-color: white;
+  background-color: var(--light);
   padding: 0;
   margin-top: 0.6em;
   position: sticky;
@@ -135,7 +148,9 @@ input{
   /* border-radius: var(--outline); */
 }
 input:focus-visible {
-  outline: var(--outline) solid var(--highlight);
+  /* outline: var(--outline) solid var(--highlight); */
+  background: var(--highlight);
+  color: var(--light)
 }
 datalist option{
   font-size: 2em;
