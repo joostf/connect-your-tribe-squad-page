@@ -22,8 +22,10 @@ app.set('views', './views')
 // Gebruik de map 'public' voor statische resources, zoals stylesheets, afbeeldingen en client-side JavaScript
 app.use(express.static('public'))
 
+
 // Maak een GET route voor de index
 app.get('/', function (request, response) {
+
   // Haal alle personen uit de WHOIS API op
   fetchJson(apiUrl + '/person').then((apiData) => {
     // apiData bevat gegevens van alle personen uit alle squads
@@ -31,6 +33,54 @@ app.get('/', function (request, response) {
 
     // Render index.ejs uit de views map en geef de opgehaalde data mee als variabele, genaamd persons
     response.render('index', {persons: apiData.data, squads: squadData.data})
+  })
+
+})
+
+
+// Squad pagina
+// Haal alle personen uit de betreffende squad uit de WHOIS API op
+
+app.get('/squad', function (request, response) {
+    //https://fdnd.directus.app/items/person/?filter={"squad_id":3}
+    //https://fdnd.directus.app/items/person/?filter={"squad_id":3}&sort=name
+    fetchJson('https://fdnd.directus.app/items/person/?filter={"squad_id":3}&sort=name').then((apiData) => {
+      response.render('squad', {persons: apiData.data})
+    })
+
+})
+
+
+
+
+
+
+
+// Maak een GET route voor de find/filter dingen
+
+app.get('/filter/:q', function (request, response) {
+
+  /*
+  https://fdnd.directus.app/items/person/?filter={"name":"Koop"}
+  https://fdnd.directus.app/items/person/?filter={"name":{"_contains":"oo"}}
+  https://fdnd.directus.app/items/person/?filter={"name":{"_eq":"oo"}}
+  https://fdnd.directus.app/items/person/?filter={"bio":{"_icontains":"frontend"}}
+  */
+
+  fetchJson(apiUrl + '/person/' + request.params.q).then((apiData) => {
+      // Render person.ejs uit de views map en geef de opgehaalde data mee als variable, genaamd person
+      response.render('filter', {persons: apiData.data, squads: squadData.data})
+  })
+})
+
+
+// Maak een GET route voor een detailpagina met een request parameter id
+app.get('/person/:id', function (request, response) {
+      
+  // Gebruik de request parameter id en haal de juiste persoon uit de WHOIS API op
+  fetchJson(apiUrl + '/person/' + request.params.id).then((apiData) => {
+    // Render person.ejs uit de views map en geef de opgehaalde data mee als variable, genaamd person
+    response.render('person', {person: apiData.data, squads: squadData.data})
   })
 })
 
@@ -40,14 +90,6 @@ app.post('/', function (request, response) {
   response.redirect(303, '/')
 })
 
-// Maak een GET route voor een detailpagina met een request parameter id
-app.get('/person/:id', function (request, response) {
-  // Gebruik de request parameter id en haal de juiste persoon uit de WHOIS API op
-  fetchJson(apiUrl + '/person/' + request.params.id).then((apiData) => {
-    // Render person.ejs uit de views map en geef de opgehaalde data mee als variable, genaamd person
-    response.render('person', {person: apiData.data, squads: squadData.data})
-  })
-})
 
 // Stel het poortnummer in waar express op moet gaan luisteren
 app.set('port', process.env.PORT || 8000)
