@@ -40,10 +40,10 @@ app.get('/', function (request, response) {
 
 // Squad pagina
 // Haal alle personen uit de betreffende squad uit de WHOIS API op
-
+//https://fdnd.directus.app/items/person/?filter={"squad_id":3}
+//https://fdnd.directus.app/items/person/?filter={"squad_id":3}&sort=name
 app.get('/squad', function (request, response) {
-    //https://fdnd.directus.app/items/person/?filter={"squad_id":3}
-    //https://fdnd.directus.app/items/person/?filter={"squad_id":3}&sort=name
+  
     fetchJson('https://fdnd.directus.app/items/person/?filter={"squad_id":3}&sort=name').then((apiData) => {
       response.render('squad', {persons: apiData.data})
     })
